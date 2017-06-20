@@ -84,16 +84,6 @@ function convert {
 function rename {
     cd "$OUT"
 
-  #  aviCount=`ls -1 *.avi 2>/dev/null | wc -l`
-  #  mkvCount=`ls -1 *.mkv 2>/dev/null | wc -l`
-  #  wmvCount=`ls -1 *.wmv 2>/dev/null | wc -l`
-  #  rmvbCount=`ls -1 *.rmvb 2>/dev/null | wc -l`
-  #  mpgCount=`ls -1 *.mpg 2>/dev/null | wc -l`
-  #  if [ $aviCount != 0 || $mkvCount != 0 || $wmvCount !=0 || $rmvbCount != 0 || $mpgCount != 0 ]
-  #  then
-  #
-  #  fi
-
     #Will rename any mkv files to mp4
     count=`ls -1 *.mkv 2>/dev/null | wc -l`
     if [ $count != 0 ]
