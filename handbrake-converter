@@ -1,0 +1,164 @@
+#!/bin/bash
+#VERSION=1.2 ###################################################################
+# Revision Log
+# VERSION=0.0 - Conversion works
+# VERSION=0.1 - Rename Function added
+# VERSION=0.2 - HandBrakeCLI installed check
+# VERSION=0.3 - ReFormatted Code into fuctions
+# VERSION=0.4 - Added download link to Install Check
+# VERSION=0.5 - Corrected Rename function
+# VERSION=0.6 - Adding more video formats to rename function
+# VERSION=0.7 - Added OS Check to work with both LINUX and MAC OSX
+# VERSION=0.8 - Added a check before renames to verify file existence
+# VERSION=0.9 - Added color to the COMPLETE statement
+# VERSION=1.0 - Added mpeg format to rename function
+# VERSION=1.1 - Remove source files, via confirmation
+# VERSION=1.2 - Remove source files, without individual file confirmation
+# This script converts any kind of video the HandBrake CLI can handle
+# into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
+#
+# Usage:
+# Running the script without any parameters just uses *all* files in the
+# ToBeConverted directory and converts them, so make sure you only have video files
+# in that directory.
+#
+# You can specify an input and output directory if you want:
+# 'script <INPUT> <OUTPUT>'
+################################################################################
+################################
+#Color Variables               #
+################################
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+
+################################
+#OS Check                      #
+################################
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Darwin' ]]; then
+   platform='Darwin'
+   IN=$HOME/Desktop/ToBeConverted
+   OUT=$HOME/Desktop/Converted
+   mkdir -p $IN
+   mkdir -p $OUT
+elif [[ "$unamestr" == 'Linux' ]]; then
+   platform='Linux'
+   IN=$HOME/ToBeConverted
+   OUT=$HOME/Converted
+   mkdir -p $IN
+   mkdir -p $OUT
+fi
+
+################################
+#HandBrakeCLI install check    #
+################################
+if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
+    echo "HandBrakeCLI IS NOT INSTALLED!"
+    echo "Download Here: https://handbrake.fr/downloads2.php"
+    echo "Save HandBrakeCLI to /usr/local/bin"
+    exit 0
+fi
+
+################################
+#Conversion function           #
+################################
+function convert {
+    #Manually define INPUT and OUTPUT
+    if [ -n "$1" ]; then
+        IN=$1
+        OUT=$2
+    fi
+    #Use global Variables for INPUT and OUTPUT
+    cd "$IN"
+    for InputItem in *;do
+      /usr/local/bin/HandBrakeCLI -i "$InputItem" -o "$OUT/${InputItem}" --preset="Fast 1080p30" -f mp4
+    done
+
+}
+
+################################
+#Rename function               #
+################################
+function rename {
+    cd "$OUT"
+
+  #  aviCount=`ls -1 *.avi 2>/dev/null | wc -l`
+  #  mkvCount=`ls -1 *.mkv 2>/dev/null | wc -l`
+  #  wmvCount=`ls -1 *.wmv 2>/dev/null | wc -l`
+  #  rmvbCount=`ls -1 *.rmvb 2>/dev/null | wc -l`
+  #  mpgCount=`ls -1 *.mpg 2>/dev/null | wc -l`
+  #  if [ $aviCount != 0 || $mkvCount != 0 || $wmvCount !=0 || $rmvbCount != 0 || $mpgCount != 0 ]
+  #  then
+  #
+  #  fi
+
+    #Will rename any mkv files to mp4
+    count=`ls -1 *.mkv 2>/dev/null | wc -l`
+    if [ $count != 0 ]
+    then
+    for f in *.mkv; do
+      mv -- "$f" "${f%.mkv}.mp4"
+    done
+    fi
+
+    #Will rename any avi files to mp4
+    count=`ls -1 *.avi 2>/dev/null | wc -l`
+    if [ $count != 0 ]
+    then
+    for f in *.avi; do
+      mv -- "$f" "${f%.avi}.mp4"
+    done
+    fi
+
+    #Will rename any wmv files to mp4
+    count=`ls -1 *.wmv 2>/dev/null | wc -l`
+    if [ $count != 0 ]
+    then
+    for f in *.wmv; do
+      mv -- "$f" "${f%.wmv}.mp4"
+    done
+    fi
+
+    #Will rename an rmvb files to mp4
+    count=`ls -1 *.rmvb 2>/dev/null | wc -l`
+    if [ $count != 0 ]
+    then
+    for f in *.rmvb; do
+      mv -- "$f" "${f%.rmvb}.mp4"
+    done
+    fi
+
+    #Will rename an mpg files to mp4
+    count=`ls -1 *.mpg 2>/dev/null | wc -l`
+    if [ $count != 0 ]
+    then
+    for f in *.mpg; do
+      mv -- "$f" "${f%.mpg}.mp4"
+    done
+    fi
+}
+
+################################
+#Remove Source Files           #
+################################
+function remove_src {
+  read -p "Would you like to delete Source files? (y/n)" -n 1 -r
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    cd $IN
+    echo #Used for formatting purposes
+      #rm -i $IN/* #Using -i function for extra confirmation until tests are COMPLETE
+      rm -f $IN/* #Using -f to make sure it doesn't confirm
+      echo "${green}Source Files Removed${reset}"
+  else [[ $REPLY =~ ^[Nn]$ ]]
+    echo "${red}Source files still exist${reset}"
+    exit 0
+  fi
+}
+#Main
+convert
+rename
+remove_src
+
+echo "${green}Conversion COMPLETE${reset}"
