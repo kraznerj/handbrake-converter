@@ -134,17 +134,17 @@ function rename {
 #Remove Source Files           #
 ################################
 function remove_src {
-  read -p "Would you like to delete Source files? (y/n)" -n 1 -r
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    cd $IN
-    echo #Used for formatting purposes
+  #read -p "Would you like to delete Source files? (y/n)" -n 1 -r
+  #if [[ $REPLY =~ ^[Yy]$ ]]; then
+  #  cd $IN
+  #  echo #Used for formatting purposes
       #rm -i $IN/* #Using -i function for extra confirmation until tests are COMPLETE
       rm -f $IN/* #Using -f to make sure it doesn't confirm
       echo "${green}Source Files Removed${reset}"
-  else [[ $REPLY =~ ^[Nn]$ ]]
-    echo "${red}Source files still exist${reset}"
-    exit 0
-  fi
+  #else [[ $REPLY =~ ^[Nn]$ ]]
+  #  echo "${red}Source files still exist${reset}"
+  #  exit 0
+  #fi
 }
 #Main
 convert
