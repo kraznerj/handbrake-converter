@@ -1,5 +1,5 @@
 #!/bin/bash
-#VERSION=1.2 ###################################################################
+#VERSION=1.3 ###################################################################
 # Revision Log
 # VERSION=0.0 - Conversion works
 # VERSION=0.1 - Rename Function added
@@ -14,6 +14,7 @@
 # VERSION=1.0 - Added mpeg format to rename function
 # VERSION=1.1 - Remove source files, via confirmation
 # VERSION=1.2 - Remove source files, without individual file confirmation
+# VERSION=1.3 - Removed Comments
 # This script converts any kind of video the HandBrake CLI can handle
 # into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
 #
