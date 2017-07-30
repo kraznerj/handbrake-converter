@@ -42,14 +42,27 @@ if [[ "$unamestr" == 'Darwin' ]]; then
    platform='Darwin'
    IN=$HOME/Desktop/ToBeConverted
    OUT=$HOME/Desktop/Converted
-   mkdir -p $IN
+   if [ ! -f $IN ]; then
+     mkdir -p $IN
+     echo "Creating $IN"
+   fi
+   if [ ! -f $OUT ]; then
+     mkdir -p $OUT
+     echo "Creating $OUT"
+   fi
    mkdir -p $OUT
 elif [[ "$unamestr" == 'Linux' ]]; then
    platform='Linux'
    IN=$HOME/ToBeConverted
    OUT=$HOME/Converted
-   mkdir -p $IN
-   mkdir -p $OUT
+   if [ ! -f $IN ]; then
+     mkdir -p $IN
+     echo "Creating $IN"
+   fi
+   if [ ! -f $OUT ]; then
+     mkdir -p $OUT
+     echo "Creating $OUT"
+   fi
 fi
 
 ################################
@@ -59,18 +72,13 @@ if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
     echo "Download Here: https://handbrake.fr/downloads2.php"
     echo "Save HandBrakeCLI to /usr/local/bin"
-    exit 0
+    exit 1
 fi
 
 ################################
 #Conversion function           #
 ################################
 function convert {
-    #Manually define INPUT and OUTPUT
-    if [ -n "$1" ]; then
-        IN=$1
-        OUT=$2
-    fi
     #Use global Variables for INPUT and OUTPUT
     cd "$IN"
     for InputItem in *;do
