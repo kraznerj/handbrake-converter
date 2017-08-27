@@ -27,14 +27,14 @@
 # 'script <INPUT> <OUTPUT>'
 ################################################################################
 ################################
-#Color Variables               #
+########Color Variables#########
 ################################
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
 ################################
-#OS Check                      #
+###########OS Check#############
 ################################
 platform='unknown'
 unamestr=`uname`
@@ -66,7 +66,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
 fi
 
 ################################
-#HandBrakeCLI install check    #
+###HandBrakeCLI install check###
 ################################
 if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
@@ -76,7 +76,7 @@ if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
 fi
 
 ################################
-#Conversion function           #
+######Conversion Function#######
 ################################
 function convert {
     #Use global Variables for INPUT and OUTPUT
@@ -88,7 +88,7 @@ function convert {
 }
 
 ################################
-#Rename function               #
+#######Rename function##########
 ################################
 function rename {
     cd "$OUT"
@@ -140,12 +140,13 @@ function rename {
 }
 
 ################################
-#Remove Source Files           #
+######Remove Source Files#######
 ################################
 function remove_src {
   rm -f $IN/* #Using -f to make sure it doesn't confirm
   echo "${green}Source Files Removed${reset}"
 }
+
 #Main
 convert
 rename
