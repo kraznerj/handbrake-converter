@@ -9,7 +9,7 @@
 # VERSION=0.5 - Corrected Rename function
 # VERSION=0.6 - Adding more video formats to rename function
 # VERSION=0.7 - Added OS Check to work with both LINUX and MAC OSX
-# VERSION=0.8 - Added a check before renames to verify file existence
+# VERSION=0.8 - Added a check before renames to verify file existance
 # VERSION=0.9 - Added color to the COMPLETE statement
 # VERSION=1.0 - Added mpeg format to rename function
 # VERSION=1.1 - Remove source files, via confirmation
@@ -34,6 +34,34 @@ red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
+function handbrake_menu {
+  if [[ "$1" == "-menu" ]]; then
+    COLUMNS=3
+    clear
+    PS3='What do you want to do with your media? '
+    options=("What's in ToBeConverted" "What has been Converted" "Quit")
+    select opt in "${options[@]}"
+    do
+    	case $opt in
+        "What's in ToBeConverted")
+          list_tobe
+          echo ""
+          ;;
+
+        "What has been Converted")
+          echo ""
+          break
+          ;;
+
+    		"Quit")
+    			break
+    			;;
+    		*) echo "invalid option";;
+    	esac
+    done
+  fi
+}
+
 ################################
 ###########OS Check#############
 ################################
@@ -43,15 +71,15 @@ if [[ "$unamestr" == 'Darwin' ]]; then
    platform='Darwin'
    IN=$HOME/Desktop/ToBeConverted
    OUT=$HOME/Desktop/Converted
-   if [ ! -f $IN ]; then
+   if [ -f $IN ]; then
      mkdir -p $IN
      echo "Creating $IN"
    fi
-   if [ ! -f $OUT ]; then
+   if [ -f $OUT ]; then
      mkdir -p $OUT
      echo "Creating $OUT"
    fi
-   mkdir -p $OUT
+
 elif [[ "$unamestr" == 'Linux' ]]; then
    platform='Linux'
    IN=$HOME/ToBeConverted
@@ -69,13 +97,22 @@ fi
 ################################
 ###HandBrakeCLI install check###
 ################################
-if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
+if [[ "$platform" == 'Darwin' ]]; then
+  if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
     echo "Download Here: https://handbrake.fr/downloads2.php"
     echo "Save HandBrakeCLI to /usr/local/bin"
     exit 1
+  fi
 fi
-
+if [[ "$platform" == 'Linux' ]]; then
+  if [ ! -f /usr/bin/HandBrakeCLI ]; then
+    echo "HandBrakeCLI IS NOT INSTALLED!"
+    echo "Download Here: https://handbrake.fr/downloads2.php"
+    echo "Save HandBrakeCLI to /usr/local/bin"
+    exit 1
+  fi
+fi
 ################################
 ######Conversion Function#######
 ################################
@@ -153,7 +190,18 @@ function remove_src {
   fi
 }
 
+function list_tobe {
+  listToBecommand=`ls -l $HOME/Desktop/ToBeConverted | awk '{print $9}'`
+  $listToBecommand
+  pause
+  #recall menu function
+  menu
+}
+
+
+
 #Main
+handbrake_menu
 convert
 rename
 remove_src
