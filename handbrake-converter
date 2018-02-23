@@ -1,28 +1,29 @@
 #!/bin/bash
-#VERSION=1.4 ###################################################################
+#VERSION=1.4####################################################################
 # Revision Log
 # VERSION=0.0 - Conversion works
 # VERSION=0.1 - Rename Function added
 # VERSION=0.2 - HandBrakeCLI installed check
-# VERSION=0.3 - ReFormatted Code into fuctions
+# VERSION=0.3 - ReFormatted Code into functions
 # VERSION=0.4 - Added download link to Install Check
 # VERSION=0.5 - Corrected Rename function
 # VERSION=0.6 - Adding more video formats to rename function
 # VERSION=0.7 - Added OS Check to work with both LINUX and MAC OSX
-# VERSION=0.8 - Added a check before renames to verify file existance
+# VERSION=0.8 - Added a check before renames to verify file type existance
 # VERSION=0.9 - Added color to the COMPLETE statement
 # VERSION=1.0 - Added mpeg format to rename function
 # VERSION=1.1 - Remove source files, via confirmation
 # VERSION=1.2 - Remove source files, without individual file confirmation
 # VERSION=1.3 - Removed Comments
 # VERSION=1.4 - Adding extra checking to remove_src function
+################################################################################
 # This script converts any kind of video the HandBrake CLI can handle
 # into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
 #
 # Usage:
 # Running the script without any parameters just uses *all* files in the
-# ToBeConverted directory and converts them, so make sure you only have video files
-# in that directory.
+# ToBeConverted directory and converts them, so make sure you only have video
+# files in that directory.
 #
 # You can specify an input and output directory if you want:
 # 'script <INPUT> <OUTPUT>'
@@ -34,34 +35,11 @@ red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
-function handbrake_menu {
-  if [[ "$1" == "-menu" ]]; then
-    COLUMNS=3
-    clear
-    PS3='What do you want to do with your media? '
-    options=("What's in ToBeConverted" "What has been Converted" "Quit")
-    select opt in "${options[@]}"
-    do
-    	case $opt in
-        "What's in ToBeConverted")
-          list_tobe
-          echo ""
-          ;;
-
-        "What has been Converted")
-          echo ""
-          break
-          ;;
-
-    		"Quit")
-    			break
-    			;;
-    		*) echo "invalid option";;
-    	esac
-    done
-  fi
-}
-
+################################
+####Check for Script Updates####
+################################
+#version_check=`sed '2q;d' handbrake-converter | sed "s/#//g"`
+#if
 ################################
 ###########OS Check#############
 ################################
@@ -190,20 +168,18 @@ function remove_src {
   fi
 }
 
-function list_tobe {
-  listToBecommand=`ls -l $HOME/Desktop/ToBeConverted | awk '{print $9}'`
-  $listToBecommand
-  pause
-  #recall menu function
-  menu
-}
-
-
-
 #Main
-handbrake_menu
 convert
 rename
 remove_src
 
-echo "${green}Conversion COMPLETE${reset}"
+echo "${green}
+
+ #####  #     #  #####   #####  #######  #####   #####
+#     # #     # #     # #     # #       #     # #     #
+#       #     # #       #       #       #       #
+ #####  #     # #       #       #####    #####   #####
+      # #     # #       #       #             #       #
+#     # #     # #     # #     # #       #     # #     #
+ #####   #####   #####   #####  #######  #####   #####
+${reset}"                                                    
