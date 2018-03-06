@@ -37,12 +37,16 @@ green=`tput setaf 2`
 reset=`tput sgr0`
 
 ################################
+#######Script HOME##############
+################################
+_scripthome='$HOME/Documents/scripts/handbrake-converter'
+################################
 ####Check for Script Updates####
 ################################
 curr_version_check=`sed '2q;d' handbrake-converter | sed "s/#//g"`
-latest_version_pull=`wget https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/version_file`
+latest_version_pull=`wget -O $_scripthome https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/version_file`
 latest_version_check=`cat version_file`
-updated_script_pull=`wget https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/handbrake-converter`
+updated_script_pull=`wget -O $_scripthome https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/handbrake-converter`
 
 if [[ curr_version_check != latest_version_check ]]; then
   SOURCE="${BASH_SOURCE[0]}"
