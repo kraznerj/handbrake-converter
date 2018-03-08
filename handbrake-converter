@@ -104,6 +104,20 @@ if [[ "$platform" == 'Linux' ]]; then
     exit 1
   fi
 fi
+
+################################
+#####Check Converted folder#####
+################################
+pre-convert=`ls $OUT | wc -l`
+if [[ pre-convert > 0 ]]; then
+  read -p "There are files in the Converted directory, would you like to remove them?" -n 1 -r
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Removing files"
+    rm -f $OUT/*
+  else [[ $REPLY =~ ^[Nn]$ ]]
+    echo "Files will be left alone"
+fi
+
 ################################
 ######Conversion Function#######
 ################################
@@ -194,3 +208,5 @@ function remove_src {
 convert
 rename
 remove_src
+
+exit 0
