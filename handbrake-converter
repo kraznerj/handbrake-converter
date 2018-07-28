@@ -17,7 +17,7 @@
 # VERSION=1.3 - Removed Comments
 # VERSION=1.4 - Adding extra checking to remove_src function
 # VERSION=1.5 - Working on self updating
-# VERSION=1.6 - Removed rename function, was able to do rename in convert function
+# VERSION=1.6 - Removed rename function, was able to do rename within convert function
 ################################################################################
 # This script converts any kind of video the HandBrake CLI can handle
 # into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
@@ -37,23 +37,6 @@ red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
-################################
-#######Script HOME##############
-################################
-#_scripthome='$HOME/Documents/scripts/handbrake-converter'
-################################
-####Check for Script Updates####
-################################
-#curr_version_check=`sed '2q;d' handbrake-converter | sed "s/#//g"`
-#latest_version_pull=`wget -O $_scripthome https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/version_file`
-#latest_version_check=`cat version_file`
-#updated_script_pull=`wget -O $_scripthome https://raw.githubusercontent.com/kraznerj/handbrake-converter/master/handbrake-converter`
-
-#if [[ curr_version_check != latest_version_check ]]; then
-#  SOURCE="${BASH_SOURCE[0]}"
-#  cd $SOURCE
-#  $updated_script_pull
-#fi
 ################################
 ###########OS Check#############
 ################################
@@ -132,8 +115,8 @@ function convert {
 ######Remove Source Files#######
 ################################
 function remove_src {
-  ToBeCount=`ls -l $HOME/Desktop/ToBeConverted 2>/dev/null | wc -l`
-  ConvertCount=`ls -l $HOME/Desktop/Converted 2>/dev/null | wc -l`
+  ToBeCount=`ls -l $IN 2>/dev/null | wc -l`
+  ConvertCount=`ls -l $OUT 2>/dev/null | wc -l`
   if [ $ToBeCount == $ConvertCount ]; then
     rm -f $IN/* #Using -f to make sure it doesn't confirm
     echo "${green}
@@ -151,7 +134,6 @@ function remove_src {
 }
 
 #Main
-#pre_convert
 convert
 remove_src
 
