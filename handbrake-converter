@@ -27,18 +27,16 @@
 # ToBeConverted directory and converts them, so make sure you only have video
 # files in that directory.
 #
-# You can specify an input and output directory if you want:
-# 'script <INPUT> <OUTPUT>'
 ################################################################################
 ################################
-########Color Variables#########
+####### Color Variables ########
 ################################
 red=`tput setaf 1`
 green=`tput setaf 2`
 reset=`tput sgr0`
 
 ################################
-###########OS Check#############
+########## OS Check ############
 ################################
 platform='unknown'
 unamestr=`uname`
@@ -70,7 +68,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
 fi
 
 ################################
-###HandBrakeCLI install check###
+## HandBrakeCLI Install Check ##
 ################################
 if [[ "$platform" == 'Darwin' ]]; then
   if [ ! -f /usr/local/bin/HandBrakeCLI ]; then
@@ -90,7 +88,7 @@ if [[ "$platform" == 'Linux' ]]; then
 fi
 
 ################################
-#####Check Converted folder#####
+#### Check Converted Folder ####
 ################################
 function pre_convert {
   list_convert=`ls $OUT | wc -l`
@@ -101,7 +99,7 @@ function pre_convert {
 }
 
 ################################
-######Conversion Function#######
+##### Conversion Function ######
 ################################
 function convert {
     #Use global Variables for INPUT and OUTPUT
@@ -112,7 +110,7 @@ function convert {
 }
 
 ################################
-######Remove Source Files#######
+##### Remove Source Files ######
 ################################
 function remove_src {
   ToBeCount=`ls -l $IN 2>/dev/null | wc -l`
