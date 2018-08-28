@@ -127,7 +127,16 @@ function remove_src {
      #####   #####   #####   #####  #######  #####   #####
     ${reset}"
   else
-    echo "${red}Source Files Were not removed${reset}"
+    echo "${red}
+    #########  #######  ######### #
+    #         #       #     #     #
+    #         #       #     #     #
+    ########  #########     #     #
+    #         #       #     #     #
+    #         #       #     #     #
+    #         #       #     #     #
+    #         #       # ######### #######
+    ${reset}"
   fi
 }
 
