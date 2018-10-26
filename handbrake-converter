@@ -91,9 +91,12 @@ fi
 #### Check Converted Folder ####
 ################################
 function pre_convert {
-  list_convert=`ls $OUT | wc -l`
-  if [[ list_convert > 0 ]]; then
-    echo "Cleanup Converted Directory"
+  if [[ -z `ls $IN` ]]; then
+    echo "No files to convert, Aborting!"
+    exit 0
+  fi
+  if [[ ! -z `ls $OUT` ]]; then
+    echo "Cleanup Converted Directory! Aborting!"
     exit 0
   fi
 }
@@ -141,6 +144,7 @@ function remove_src {
 }
 
 #Main
+pre_convert
 convert
 remove_src
 
