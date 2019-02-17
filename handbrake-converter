@@ -36,6 +36,21 @@ green=`tput setaf 2`
 reset=`tput sgr0`
 
 ################################
+######## Process Check ########
+################################
+
+pidfile=/var/run/handbrake-converter.pid
+checkprocess=`ps -ef | grep handbrake-convert | grep -v grep | awk {' print $2 '}`
+
+if [[ -f $pidfile ]]; then
+  echo "Script already running, Aborting!"
+  exit 0
+fi
+
+touch $pidfile
+echo $checkprocess > $pidfile
+
+################################
 ########## OS Check ############
 ################################
 platform='unknown'
@@ -129,18 +144,12 @@ function remove_src {
     #     # #     # #     # #     # #       #     # #     #
      #####   #####   #####   #####  #######  #####   #####
     ${reset}"
-  else
-    echo "${red}
-    #########  #######  ######### #
-    #         #       #     #     #
-    #         #       #     #     #
-    ########  #########     #     #
-    #         #       #     #     #
-    #         #       #     #     #
-    #         #       #     #     #
-    #         #       # ######### #########
-    ${reset}"
+      if [[ "$platform" == 'Darwin' ]]; then
+        osascript -e 'display alert "HandBrake Conversion Sucessful"'
+      fi
   fi
+
+  #rm -f $pidfile
 }
 
 #Main
