@@ -1,5 +1,5 @@
 #!/bin/bash
-#VERSION=1.6####################################################################
+#VERSION=1.8####################################################################
 # Revision Log
 # VERSION=0.0 - Conversion works
 # VERSION=0.1 - Rename Function added
@@ -18,6 +18,8 @@
 # VERSION=1.4 - Adding extra checking to remove_src function
 # VERSION=1.5 - Working on self updating
 # VERSION=1.6 - Removed rename function, was able to do rename within convert function
+# VERSION=1.7 - Added Logic to check the ToBeConverted directory before starting Conversion
+# VERSION=1.8 - If the machine is OSX, when the script ends you get a pop up window
 ################################################################################
 # This script converts any kind of video the HandBrake CLI can handle
 # into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
@@ -39,7 +41,8 @@ reset=`tput sgr0`
 ######## Process Check ########
 ################################
 
-pidfile=/var/run/handbrake-converter.pid
+workingdir=`pwd`
+pidfile=${workingdir}/handbrake-converter.pid
 checkprocess=`ps -ef | grep handbrake-convert | grep -v grep | awk {' print $2 '}`
 
 if [[ -f $pidfile ]]; then
