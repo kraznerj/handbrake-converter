@@ -153,7 +153,7 @@ function remove_src {
       fi
   fi
 
-  #rm -f $pidfile
+  rm -f $pidfile
 }
 
 #Main
