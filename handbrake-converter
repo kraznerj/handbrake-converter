@@ -152,13 +152,11 @@ function remove_src {
         osascript -e 'display alert "HandBrake Conversion Sucessful"'
       fi
   fi
-
-  rm -f $pidfile
 }
 
 #Main
 pre_convert
 convert
 remove_src
-
+rm -f $pidfile
 exit 0
