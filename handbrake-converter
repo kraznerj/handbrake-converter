@@ -149,7 +149,7 @@ function remove_src {
      #####   #####   #####   #####  #######  #####   #####
     ${reset}"
       if [[ "$platform" == 'Darwin' ]]; then
-        osascript -e 'display alert "HandBrake Conversion Sucessful"'
+        osascript -e 'display alert "HandBrake Conversion Sucessful" message "Please find converted media in Converted directory."'
       fi
   fi
 }
