@@ -21,6 +21,7 @@
 # VERSION=1.7 - Added Logic to check the ToBeConverted directory before starting Conversion
 # VERSION=1.8 - If the machine is OSX, when the script ends you get a pop up window
 # VERSION=1.9 - Changing pidfile location
+# VERSION=1.9.1 - Cleanup on the abort section
 ################################################################################
 # This script converts any kind of video the HandBrake CLI can handle
 # into a 1000 kbit MPEG4 video and shrinks it down to a max width of 640 px.
@@ -101,7 +102,7 @@ if [[ "$platform" == 'Linux' ]]; then
   if [ ! -f /usr/bin/HandBrakeCLI ]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
     echo "Download Here: https://handbrake.fr/downloads2.php"
-    echo "Save HandBrakeCLI to /usr/local/bin"
+    echo "Save HandBrakeCLI to /usr/bin"
     exit 1
   fi
 fi
@@ -112,10 +113,12 @@ fi
 function pre_convert {
   if [[ -z `ls $IN` ]]; then
     echo "No files to convert, Aborting!"
+    rm -f $pidfile
     exit 0
   fi
   if [[ ! -z `ls $OUT` ]]; then
     echo "Cleanup Converted Directory! Aborting!"
+    rm -f $pidfile
     exit 0
   fi
 }
