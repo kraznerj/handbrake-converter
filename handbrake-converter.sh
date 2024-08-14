@@ -105,6 +105,7 @@ if [[ "$platform" == 'Darwin' ]]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
     echo "Download Here: https://handbrake.fr/downloads2.php"
     echo "Save HandBrakeCLI to /usr/local/bin"
+    f_pid_cleanup
     exit 1
   fi
 fi
@@ -113,6 +114,7 @@ if [[ "$platform" == 'Linux' ]]; then
     echo "HandBrakeCLI IS NOT INSTALLED!"
     echo "Download Here: https://handbrake.fr/downloads2.php"
     echo "Save HandBrakeCLI to /usr/bin"
+    f_pid_cleanup
     exit 1
   fi
 fi
